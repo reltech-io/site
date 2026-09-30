@@ -16,6 +16,7 @@
   :root{
     --navy-900:#12182d; --blue-400:#5fbcea; --blue-500:#00aae7; --blue-600:#5893bb; --blue-200:#8cc6ec;
     --surface-raised:#1b2340; --ink:#eef4fa; --ink-muted:#9aabc2; --hairline:#5893bb40;
+    --band:#172039; --divider:#5893bb73; --footer-bg:#0d1224;
     --font:"Futura PT",Jost,"Century Gothic",sans-serif;
     --header-h:64px; --max:1080px; --gutter:16px;
     --ease:cubic-bezier(.2,.7,.2,1);
@@ -63,7 +64,14 @@
 
   /* Sections */
   section.block{position:relative;padding:112px 0}
-  section.block::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--hairline);transform-origin:left}
+  section.block::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--divider);transform-origin:left}
+  /* Section marker: a short bright trace ending in a node, aligned with the content column */
+  section.block::after{content:"";position:absolute;top:-3px;left:max(var(--gutter),calc((100% - var(--max)) / 2 + var(--gutter)));
+    width:132px;height:7px;
+    background:radial-gradient(circle at calc(100% - 3.5px) 50%,var(--blue-400) 2.6px,transparent 3.2px),
+               linear-gradient(var(--blue-400),var(--blue-400)) left center/calc(100% - 6px) 1px no-repeat}
+  section.block.band{background:var(--band)}
+  .band .product{background:var(--navy-900)}
   .kicker{margin:0 0 20px;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--blue-600);
           display:flex;align-items:center;gap:12px}
   .kicker::before{content:"";width:7px;height:7px;border:1px solid var(--blue-400);border-radius:50%;flex:none;
@@ -115,7 +123,7 @@
   address{font-style:normal;font-size:20px;line-height:1.55;color:var(--ink)}
 
   /* Footer */
-  .site-footer{padding:24px var(--gutter) 32px;border-top:1px solid var(--hairline);text-align:center;
+  .site-footer{padding:28px var(--gutter) 36px;background:var(--footer-bg);border-top:1px solid var(--divider);text-align:center;
          font-size:13px;line-height:1.7;color:var(--ink-muted);letter-spacing:.04em}
   .site-footer p{margin:0}
   .site-footer p + p{font-size:12px;margin-top:4px}
@@ -135,6 +143,8 @@
     .js .reveal.in{opacity:1;transform:none}
     .js section.block::before,.js .line::before{transform:scaleX(0);transition:transform 1.4s var(--ease) var(--d,0s)}
     .js section.block.in::before,.js .line.in::before{transform:scaleX(1)}
+    .js section.block::after{clip-path:inset(0 100% 0 0);transition:clip-path 1s var(--ease) .35s}
+    .js section.block.in::after{clip-path:inset(0 0 0 0)}
   }
   @keyframes rise{to{opacity:1;transform:none}}
   @keyframes draw{to{transform:scaleX(1)}}
@@ -208,7 +218,7 @@
     </div>
   </section>
 
-  <section class="block" id="solutions" aria-labelledby="solutions-title">
+  <section class="block band" id="solutions" aria-labelledby="solutions-title">
     <div class="wrap">
       <p class="kicker reveal">Solutions</p>
       <h2 class="reveal" style="--d:.1s" id="solutions-title">What we build.</h2>
